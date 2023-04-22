@@ -83,11 +83,14 @@ export class BoardComponent {
     })
   }
 
-  openDialog() {
+  openDialog(todo: ToDo) {
     this.dialog.open(TodoDialogComponent, {
       minWidth: '300px',
       maxWidth: '50%',
       autoFocus: false,
+      data: {
+        todo: todo,
+      }
     });
   }
 }
