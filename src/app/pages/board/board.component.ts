@@ -1,7 +1,9 @@
 import { Component } from '@angular/core';
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from "@angular/cdk/drag-drop";
+import { Dialog } from "@angular/cdk/dialog";
 
 import { ToDo, Column } from "../../models/todo.model";
+import { TodoDialogComponent } from "../../components/todo-dialog/todo-dialog.component";
 
 @Component({
   selector: 'app-board',
@@ -57,6 +59,10 @@ export class BoardComponent {
     },
   ];
 
+  constructor (
+    private dialog : Dialog,
+  ) {}
+
   drop(event: CdkDragDrop<ToDo[]>) {
     if (event.previousContainer == event.container) {
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
@@ -75,5 +81,13 @@ export class BoardComponent {
       title: 'New Column',
       todos: [],
     })
+  }
+
+  openDialog() {
+    this.dialog.open(TodoDialogComponent, {
+      minWidth: '300px',
+      maxWidth: '50%',
+      autoFocus: false,
+    });
   }
 }
