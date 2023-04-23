@@ -1,8 +1,10 @@
 import { Component } from '@angular/core';
+import { FormControl } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 
 import { Product } from 'src/app/models/product.model';
 import { DataSourceProduct } from './data-source';
+import { debounceTime } from 'rxjs';
 
 @Component({
   selector: 'app-table',
@@ -12,6 +14,7 @@ export class TableComponent {
   columns: string[] = ['id', 'title', 'price', 'cover', 'actions']
   dataSource = new DataSourceProduct();
   total = 0;
+  input = new FormControl('', { nonNullable: true })
 
   constructor(
     private http: HttpClient
@@ -22,6 +25,14 @@ export class TableComponent {
     .subscribe(data => {
       this.dataSource.init(data);
       this.total = this.dataSource.getTotal();
+    });
+
+    this.input.valueChanges
+    .pipe(
+      debounceTime(300)
+    )
+    .subscribe(value => {
+      this.dataSource.find(value);
     });
   }
 
