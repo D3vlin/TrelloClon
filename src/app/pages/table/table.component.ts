@@ -8,9 +8,9 @@ import { Product } from 'src/app/models/product.model';
   templateUrl: './table.component.html'
 })
 export class TableComponent {
-  products: Product[] = [];
-
   columns: string[] = ['id', 'title', 'price', 'cover']
+  products: Product[] = [];
+  total = 0;
 
   constructor(
     private http: HttpClient
@@ -20,6 +20,9 @@ export class TableComponent {
     this.http.get<Product[]>('https://api.escuelajs.co/api/v1/products')
     .subscribe(response => {
       this.products = response;
+      this.total = this.products
+        .map(item => item.price)
+        .reduce((price, total) => price + total, 0);
     });
   }
 }
