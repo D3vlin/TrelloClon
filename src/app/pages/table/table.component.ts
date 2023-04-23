@@ -1,13 +1,16 @@
 import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+
 import { Product } from 'src/app/models/product.model';
 
 @Component({
-  selector: 'app-scroll',
-  templateUrl: './scroll.component.html'
+  selector: 'app-table',
+  templateUrl: './table.component.html'
 })
-export class ScrollComponent {
+export class TableComponent {
   products: Product[] = [];
+
+  columns: string[] = ['id', 'title', 'price', 'cover']
 
   constructor(
     private http: HttpClient
